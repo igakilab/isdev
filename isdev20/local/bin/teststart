@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+#コマンド実行履歴を保存するファイル．bash_profile.shで定義されている変数を利用している
+HISTTESTFILE="${HOME}/kadai/${COURSEYEAR}/.log/.java_test_history.${HISTDATE}"
+echo [teststart]:`date +%s` >> "${HISTTESTFILE}"
+
+##########################
+# 提出ディレクトリの確認 #
+##########################
+JAVADIR="${HOME}/kadai/${COURSEYEAR}"
+for i in {1..3} ; do
+    if [ ! -d "${JAVADIR}/test0${i}" ]; then
+        echo ""
+        echo "エラー: ${JAVADIR}/test0${i} が存在しません．getjavaコマンドを実行してください"
+        echo ""
+        echo [error]:`date +%s` >> "${HISTTESTFILE}"
+        echo "エラー: ${JAVADIR}/test0${i} が存在しません" >> "${HISTTESTFILE}"
+        exit 1
+    fi
+done
+
+#リポジトリ初期化，コミッターの名前とアドレス登録，gitignore設定
+echo [git_init]:`date +%s` >> "${HISTTESTFILE}"
+git config --global core.autoCRLF false
+for i in `seq 1 3`
+do
+  git -C ~/kadai/${COURSEYEAR}/test0${i}/ init 1>> "${HISTTESTFILE}" 2>&1
+  git -C ~/kadai/${COURSEYEAR}/test0${i}/ config --local user.name "`/usr/local/bin/oitname`" 1>> "${HISTTESTFILE}" 
+  git -C ~/kadai/${COURSEYEAR}/test0${i}/ config --local user.email "`/usr/local/bin/oitname`@st.oit.ac.jp" 1>> "${HISTTESTFILE}" 2>&1
+  git -C ~/kadai/${COURSEYEAR}/test0${i}/ config --local core.autoCRLF false 1>> "${HISTTESTFILE}" 2>&1
+  echo -e "*.class\n.*\n*~\n#*\n*.tbz2" > "$HOME/kadai/${COURSEYEAR}/test0${i}/.gitignore" 2>> "${HISTTESTFILE}"
+done
+
+echo "実技試験を開始します．このターミナルは試験終了まで閉じないようにしてください．"

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#コマンド実行履歴を保存するファイル．bash_profile.shで定義されている変数を利用している
+HISTTESTFILE="${HOME}/kadai/${COURSEYEAR}/.log/.java_test_history.${HISTDATE}"
+
+##########################
+# 提出ディレクトリの確認 #
+##########################
+JAVADIR="${HOME}/kadai/${COURSEYEAR}"
+
+for i in {1..3} ; do
+    if [ ! -d "${JAVADIR}/test0${i}" ]; then
+        echo ""
+        echo "エラー: ${JAVADIR}/test0${i} が存在しません．getjavaコマンドを実行してください"
+        echo [error]:`date +%s` >> "${HISTTESTFILE}"
+        echo "エラー: ${JAVADIR}/test0${i} が存在しません" >> "${HISTTESTFILE}"
+        exit 1
+    fi
+done
+
+###################
+# loop の強制終了 #
+###################
+# このシェルスクリプトを起動しているプロセスのPID
+#MYPID=`echo $$`
+#現在起動しているbashプロセスすべてを強制終了する．なお，このスクリプト自身(MYPID)は除外する．
+#ps ux | grep bash | awk '{print $1}' | grep -v ${MYPID} | xargs kill 1>> "${HISTTESTFILE}" 2>&1
+
+# testend実行時の最終コミット
+for i in `seq 1 3`
+do
+  git -C ~/kadai/${COURSEYEAR}/test0${i}/ add -A 1>/dev/null 2>> "${HISTTESTFILE}"
+  git -C ~/kadai/${COURSEYEAR}/test0${i}/ commit -m "`date +%s`" 1>/dev/null 2>> "${HISTTESTFILE}"
+done
+
+
+##############
+# 答案の圧縮 #
+##############
+cd "${JAVADIR}"
+tar cvfj "${JAVADIR}/.log/.${COURSEYEAR}_`/usr/local/bin/oitname`_`date +%Y%m%d%H%M%S`.tbz2" --exclude *.class -C "${JAVADIR}" test0*/ | grep -v ".git" 1>> "${HISTTESTFILE}" 2>&1
+
+echo [testend]:`date +%s` >> "${HISTTESTFILE}"
+
+echo -e "実技試験を終了します．\n今後，testフォルダ内のファイルを編集した場合はカンニングとなります．\nそれではPCをインターネットに接続してからshussekiコマンドを実行し，実技試験ファイルを提出してください．"
+

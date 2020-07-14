@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /c/windows/system32/nslookup.exe "$@" 2>&1 | /usr/bin/iconv -f cp932 -t utf-8

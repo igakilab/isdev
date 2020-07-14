@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#コマンド実行履歴を保存するファイル．bash_profile.shで定義されている変数を利用している
+HISTTESTFILE="${HOME}/kadai/${COURSEYEAR}/.log/.java_test_history.${HISTDATE}"
+
+
+#一定時間ごとに編集履歴を保存
+for i in `seq 1 3`
+do
+  git -C ~/kadai/${COURSEYEAR}/test0${i}/ add -A 1>/dev/null 2>> "${HISTTESTFILE}"
+  git -C ~/kadai/${COURSEYEAR}/test0${i}/ commit -m "`date +%s`" 1>/dev/null 2>> "${HISTTESTFILE}"
+done

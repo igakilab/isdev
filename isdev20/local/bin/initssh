@@ -1,0 +1,88 @@
+#!/bin/bash -u
+#
+# 提出サーバに公開鍵認証で接続するための設定を行う．
+#
+# Author: Yasuharu Mizutani
+
+SSHKEY_COMMENT="${CLASSNAME}-byod_publickey"
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+echo -e "${GB}課題提出などの際に演習室のLinux環境に接続するための設定を行います．${GE}"
+sleep 0.3
+
+#
+# ユーザ名の入力
+#
+echo -en "${GB}e1で始まるユーザ名を入力してください${GE}: "
+read id
+case "${id}" in
+  e1??????|m1??????)
+    dmode="705"
+    ;;
+  t???????)
+    dmode="750"
+    ;;
+  *)
+    echo "ユーザ名が e1xxxxxx の形式ではありません"
+    exit 1
+    ;;
+esac
+
+# /homeの作成->bashprofileに移動
+#export MSYS=winsymlinks:lnk
+#if [ ! -e "/home/${USERNAME}" ]; then
+#  mkdir -p /home
+#  ln -s "${HOME}" "/home/${USERNAME}"
+#fi
+
+#
+# .sshディレクトリの作成
+#
+if [ ! -d ~/.ssh ]; then
+    mkdir -p ~/.ssh
+fi
+echo "StrictHostKeyChecking no" >  ~/.ssh/config
+echo "ConnectTimeout 8"         >> ~/.ssh/config
+
+#
+# 鍵の生成
+#
+eval PUBKEY="~/.ssh/id_rsa.pub"
+eval PRIKEY="~/.ssh/id_rsa"
+echo -e "\n${GB}公開鍵認証のための鍵を生成します．${GE}"
+if [ -f "${PUBKEY}" -a -f "${PRIKEY}" ]; then
+    echo "既に鍵がありますので飛ばします．"
+else
+    ssh-keygen -t rsa -C "@${SSHKEY_COMMENT}" -P "" -f "${PRIKEY}"
+fi
+
+#
+# 公開鍵認証の設定とユーザ名の登録
+# (kadaiディレクトリも作っておく)
+#
+RHOST="`/usr/local/bin/kadaihost`"
+RCOMM="
+    mkdir -p -m 700 .ssh;
+    touch .ssh/authorized_keys;
+    cat >> .ssh/authorized_keys;
+    chmod 600 .ssh/authorized_keys;
+    mkdir -p -m ${dmode} kadai;
+    touch .initssh_done_${COURSEYEAR};
+"
+
+echo -e "\n${GB}公開鍵を演習室のLinux環境に登録します．このとき，Linux環境に接続"
+echo -e   "${GB}するために演習室のパスワードが尋ねられますので入力してください．"
+echo -e   "${GB}（既に公開鍵を登録済の場合は尋ねられずに完了となります）${GE}"
+if cat "${PUBKEY}" | ssh "${id}@${RHOST}" "${RCOMM}"; then
+    echo "${id}" > ~/.oitname
+    echo -e "\n${GB}完了しました${GE}"
+else
+    echo -e "\n${RB}失敗しました${RE}"
+    exit 1
+fi
+exit 0
+
