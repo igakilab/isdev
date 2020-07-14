@@ -6,6 +6,7 @@
   "extensions.ignoreRecommendations": true,
   "files.exclude": {
     "bin/": true,
+    "**/bin/": true,
     ".*": true,
     "**/.*": true,
     "**/.classpath": true,
@@ -54,7 +55,6 @@
   "editor.folding": true, // コードの折りたたみを許可
   "editor.lineNumbers": "on", // 行番号の表示
   "editor.matchBrackets": "always", // 対応する括弧の強調表示をオンに
-  "git.enabled": false,
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
   "java.configuration.updateBuildConfiguration": "interactive"
