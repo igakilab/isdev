@@ -57,5 +57,5 @@
   "editor.matchBrackets": "always", // 対応する括弧の強調表示をオンに
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "automatic"
 }
