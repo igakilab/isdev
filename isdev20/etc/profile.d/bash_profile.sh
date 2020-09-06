@@ -35,3 +35,10 @@ export PROMPT_COMMAND='echo -e "res:$?\tpwd:$PWD" >> ~/kadai/$COURSEYEAR/.log/.$
 this_month=`date +'%Y%m'`
 last_month=`date -d "${this_month}01 1 month ago" +'%Y%m'`
 find ~/kadai/`/usr/local/bin/course`/ -name ".${CLASSNAME}_bash_history*" -not -name ".${CLASSNAME}_bash_history.${this_month}" -not -name ".${CLASSNAME}_bash_history.${last_month}" -exec rm {} \;
+
+# /home�̍쐬
+export MSYS=winsymlinks:lnk
+if [ ! -e "/home/${USERNAME}" ]; then
+  mkdir -p /home
+  ln -s "${HOME}" "/home/${USERNAME}"
+fi

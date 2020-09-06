@@ -82,4 +82,14 @@ $ zipwork
 - 7zファイルが作成されたら，そのファイルを提出する．
   - なお，提出ファイルには開発したソースコード及び各種ログ（ターミナルで実行したコマンドやファイル編集履歴）が含まれている．
   - これらのソースコードやログは収集後，匿名化し，誰のものか分からなくした上でより良い開発環境の構築やプログラミング演習等の授業改善，研究等に利用される．
-  
+
+## 演習環境のセットアップ
+### vscodeの拡張機能の追加
+- Debugger for Java
+- EvilInspector
+- Gradle Language Support
+- Japanese Language Pack
+- Language Support for Java
+- Spring Initializr Java Support
+- Spring Boot Tools
+- Local History
