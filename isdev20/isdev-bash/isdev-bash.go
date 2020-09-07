@@ -8,7 +8,7 @@ import (
 
 func main() {
 	classname := `isdev`
-	pgdir := `C:\oit\isdev20\PortableGit-2.25.0-64`
+	pgdir := `C:\oit\isdev20\PortableGit-2.28.0-64`
 
 	os.Setenv("CHERE_INVOKING", "1")
 	os.Setenv("MSYSTEM", "MINGW64")

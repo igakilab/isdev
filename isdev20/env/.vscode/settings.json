@@ -1,6 +1,6 @@
 {
   "files.encoding": "utf8",
-  "git.path": "C:\\oit\\isdev20\\PortableGit-2.25.0-64\\bin\\git.exe",
+  "git.enabled": true,
   "java.home": "c:\\oit\\isdev20\\amazonjdk11.0.8_10",
   "java.trace.server": "messages",
   "java.errors.incompleteClasspath.severity": "ignore",
