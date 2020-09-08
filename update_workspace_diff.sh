@@ -63,7 +63,7 @@ function ConfirmVersionUpdate() {
   fi
 
 }
-function RsyncEnvironment() {
+function RsyncEnvironment_old() {
   echo "$1から$2への同期を行います $3"
   rsync -avm --checksum $3 \
         --include='*/'  \
@@ -74,6 +74,19 @@ function RsyncEnvironment() {
         --include='.classpath'  \
         --include='.project'  \
         --exclude='*'  \
+        "$1" "$2"
+
+}
+
+function RsyncEnvironment() {
+  echo "$1から$2への同期を行います $3"
+  rsync -avm --checksum $3 \
+        --include='.version' \
+        --exclude='.log/*' \
+        --exclude='*.git/' \
+        --exclude='*.gradle/' \
+        --exclude='*bin/' \
+        --exclude='*build/' \
         "$1" "$2"
 
 }
