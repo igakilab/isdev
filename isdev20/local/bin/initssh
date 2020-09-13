@@ -58,6 +58,7 @@ if [ -f "${PUBKEY}" -a -f "${PRIKEY}" ]; then
     echo "既に鍵がありますので飛ばします．"
 else
     ssh-keygen -t rsa -C "@${SSHKEY_COMMENT}" -P "" -f "${PRIKEY}"
+    chmod 600 "${PRIKEY}"
 fi
 
 #
