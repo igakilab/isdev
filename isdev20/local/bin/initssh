@@ -58,8 +58,9 @@ if [ -f "${PUBKEY}" -a -f "${PRIKEY}" ]; then
     echo "既に鍵がありますので飛ばします．"
 else
     ssh-keygen -t rsa -C "@${SSHKEY_COMMENT}" -P "" -f "${PRIKEY}"
-    chmod 600 "${PRIKEY}"
 fi
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/*
 
 #
 # 公開鍵認証の設定とユーザ名の登録
