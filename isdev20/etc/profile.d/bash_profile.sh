@@ -42,3 +42,5 @@ if [ ! -e "/home/${USERNAME}" ]; then
   mkdir -p /home
   ln -s "${HOME}" "/home/${USERNAME}"
 fi
+
+JAVA_HOME=/c/oit/$COURSEYEAR/`/usr/local/bin/coursejdk`/
