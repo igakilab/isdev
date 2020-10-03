@@ -60,5 +60,7 @@
   "editor.matchBrackets": "always", // 対応する括弧の強調表示をオンに
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "javascript.format.insertSpaceAfterCommaDelimiter": false,
+  "html.validate.scripts": false
 }
