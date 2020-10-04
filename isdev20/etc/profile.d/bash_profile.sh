@@ -44,3 +44,16 @@ if [ ! -e "/home/${USERNAME}" ]; then
 fi
 
 JAVA_HOME=/c/oit/$COURSEYEAR/`/usr/local/bin/coursejdk`/
+
+function cmdwin() {
+        CMND=$1
+        shift
+        $CMND $* 2>&1 | iconv -f cp932 -t utf-8
+}
+
+# Curlでutf8の日本語ページを取得したときに文字化けするのを修正する
+function jpconv() {
+        CMND=$1
+        shift
+        $CMND $* 2>&1 | iconv -c -f cp932 -t cp932
+}

@@ -21,7 +21,7 @@
   </p>
   <!--th:ifと書くと条件文を表す．この例の場合，kakeruResultが
     返ってきたとき(nullでないとき)だけdivを表示する
-  th:ifのようなthymeleafの変数であることを示している場合は[[]]で囲まなくて良い-->
+  th:ifのようなthymeleafの変数であることを示している場合は"["で囲まなくて良い-->
   <div th:if="${kakeruResult}">
     結果：[[${kakeruResult}]]
   </div>
