@@ -30,6 +30,14 @@ public class Sample3AuthConfiguration extends WebSecurityConfigurerAdapter {
     auth.inMemoryAuthentication().withUser("admin")
         .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("ADMIN");
 
+    // $ sshrun htpasswd -nbBC 10 customer1 Cust0m
+    auth.inMemoryAuthentication().withUser("customer1")
+        .password("$2y$10$8IbzoKwqlCJf.z8/7YThKuSB1nGAQSr8rtHN7pQzm4mx9nrOhsN1C").roles("CUSTOMER");
+    auth.inMemoryAuthentication().withUser("customer2")
+        .password("$2y$10$8IbzoKwqlCJf.z8/7YThKuSB1nGAQSr8rtHN7pQzm4mx9nrOhsN1C").roles("CUSTOMER");
+    auth.inMemoryAuthentication().withUser("seller")
+        .password("$2y$10$8IbzoKwqlCJf.z8/7YThKuSB1nGAQSr8rtHN7pQzm4mx9nrOhsN1C").roles("SELLER");
+
     // 開発中は↓の書き方でも良いが，平文でパスワードが保存される
     // auth.inMemoryAuthentication().withUser("user1").password(passwordEncoder().encode("pAssw0rd")).roles("USER");
     // auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("pAssw0rd")).roles("ADMIN");
@@ -55,6 +63,8 @@ public class Sample3AuthConfiguration extends WebSecurityConfigurerAdapter {
     // authenticated()の代わりにpermitAll()と書くと認証処理が不要であることを示す
     http.authorizeRequests().antMatchers("/sample3/**").authenticated();
     http.authorizeRequests().antMatchers("/sample4/**").authenticated();
+    http.authorizeRequests().antMatchers("/sample5/**").authenticated();
+    // http.authorizeRequests().anyRequest().authenticated();
     /**
      * 以下2行はh2-consoleを利用するための設定なので，開発が完了したらコメントアウトすることが望ましい
      * CSRFがONになっているとフォームが対応していないためアクセスできない
