@@ -56,12 +56,13 @@ public class AsyncShopService57 {
     dbUpdated = true;
     try {
       while (true) {
-        TimeUnit.MILLISECONDS.sleep(500);
         if (false == dbUpdated) {
+          TimeUnit.MILLISECONDS.sleep(500);
           continue;
         }
         ArrayList<Fruit> fruits7 = this.syncShowFruitsList();
         emitter.send(fruits7);
+        TimeUnit.MILLISECONDS.sleep(1000);
         dbUpdated = false;
       }
     } catch (Exception e) {
