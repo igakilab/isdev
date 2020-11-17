@@ -8,3 +8,5 @@ INSERT INTO fruit (name,price) VALUES ('なし',200);
 INSERT INTO fruit (name,price) VALUES ('りんご',150);
 INSERT INTO fruit (name,price) VALUES ('かき',180);
 INSERT INTO fruit (name,price) VALUES ('マスカット',550);
+INSERT INTO userdetail (userId,name,jobId) VALUES ('user1','いがき',1);
+INSERT INTO userdetail (userId,name,jobId) VALUES ('user2','ほんだ',2);

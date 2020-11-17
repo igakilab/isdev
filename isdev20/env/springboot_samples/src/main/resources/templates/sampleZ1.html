@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>SpringBoot SampleZ1-1</title>
+</head>
+
+<body>
+  <h1>Authorized! [[${login_user}]]:[[${user_name}]]:[[${job_id}]]</h1>
+  <a href="/logout">ログアウト</a>
+
+  <!--job_idの値が1と等しい場合-->
+  <div th:if="${job_id eq 1}">
+    あなたのJOB_IDは1ですね
+  </div>
+
+  <!--job_idの値が2と等しい場合-->
+  <div th:if="${job_id eq 2}">
+    あなたのJOB_IDは2ですね
+  </div>
+
+</body>
+
+</html>

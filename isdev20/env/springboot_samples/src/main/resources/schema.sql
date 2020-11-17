@@ -12,3 +12,8 @@ CREATE TABLE fruit (
     name CHAR NOT NULL,
     price INT NOT NULL
 );
+CREATE TABLE userdetail (
+    userId CHAR NOT NULL PRIMARY KEY,
+    name CHAR NOT NULL,
+    jobId INT NOT NULL
+);
