@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# putkadai, getkadai, getlocal, initssh, sshrunなどで接続するリモートホストの
+# 名前を返す．
+#
+# Written by Yasuharu Mizutani
+
+##############################################################
+# 環境変数 KADAI_HOST が設定されている場合は，それを優先する #
+##############################################################
+if [ -v KADAI_HOST ]; then
+    echo ${KADAI_HOST}
+    exit
+fi
+
+######################
+# 提出先ホストの候補 #
+######################
+HOSTS=(
+    150.89.15.111       #o-ssh.center.oit.ac.jp(1)
+    150.89.15.112       #o-ssh.center.oit.ac.jp(2)
+    150.89.15.113       #o-ssh.center.oit.ac.jp(3)
+    150.89.15.114       #o-ssh.center.oit.ac.jp(4)
+    o-vnc.center.oit.ac.jp       #o-vnc.center.oit.ac.jp
+)
+
+###############################
+# HOSTSの要素をランダムに返す #
+###############################
+RANDOM_INDEX=$(( $RANDOM % ${#HOSTS[*]} ))
+echo ${HOSTS[${RANDOM_INDEX}]}
+

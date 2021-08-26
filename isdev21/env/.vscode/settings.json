@@ -1,0 +1,66 @@
+{
+  "files.encoding": "utf8",
+  "git.enabled": true,
+  "java.home": "c:\\oit\\isdev21\\amazonjdk11.0.12_7",
+  "java.trace.server": "messages",
+  "java.errors.incompleteClasspath.severity": "ignore",
+  "extensions.ignoreRecommendations": true,
+  "files.exclude": {
+    "bin/": true,
+    "**/bin/": true,
+    ".*": true,
+    "**/.*": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+  },
+  "java.server.launchMode": "Standard",
+  "workbench.editor.enablePreview": false,
+  "workbench.colorTheme": "Default Light+",
+  "workbench.editor.labelFormat": "short", // タブに表示する文字列の設定
+  "workbench.editor.tabSizing": "shrink", // タブの表示設定
+  "files.eol": "\n",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 5000,
+  "files.insertFinalNewline": true, // ファイルの保存時に末尾を改行
+  "files.trimFinalNewlines": true, // ファイルの保存時に最終行以降をトリミング
+  "files.trimTrailingWhitespace": true, // ファイルの保存時に行末の空白をトリミング
+  "local-history.maxDisplay": 10, //Local History関連
+  "local-history.path": "${workspaceFolder}/.log",
+  "local-history.enabled": 2, // Save only files within workspaceFolder
+  "local-history.exclude": [
+    "**/.history /**",
+    "**/.vscode**",
+    "**/.git**",
+    "**/.log**",
+    "**/bin/**",
+    "*.class",
+  ],
+  "editor.codeLens": false,
+  "editor.renderWhitespace": "boundary",
+  "editor.fontFamily": "Consolas, monospace",
+  "editor.fontSize": 15,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.tabSize": 2,
+  "editor.tabCompletion": "on",
+  "editor.detectIndentation": false,
+  "editor.wordWrap": "on",
+  "editor.renderControlCharacters": true,
+  "editor.minimap.showSlider": "always",
+  "editor.renderLineHighlight": "all", // 選択行を行番号含めすべてハイライト
+  "editor.quickSuggestions": {
+    "comments": false, // コメント内では無効
+    "strings": true, // 文字列内では有効
+    "other": true //  その他の場所で有効
+  },
+  "editor.folding": true, // コードの折りたたみを許可
+  "editor.lineNumbers": "on", // 行番号の表示
+  "editor.matchBrackets": "always", // 対応する括弧の強調表示をオンに
+  "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false,
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "javascript.format.insertSpaceAfterCommaDelimiter": false,
+  "html.validate.scripts": false
+}

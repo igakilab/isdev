@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+# Written by Hiroshi Igaki
+
+usage(){
+    cat <<-EOF
+	
+	使い方:
+	    initgitrepo
+	
+	/home 以下に local, etc,及びホーム以下の設定ファイルを取得するためのリポジトリを作成する
+	
+	EOF
+}
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+if [ "$#" -ge 1 ]; then
+    case "$1" in
+        -h|-help|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+fi
+
+if [ -d /home/${CLASSNAME} ]; then
+  rm -rf /home/${CLASSNAME}
+fi
+
+mkdir -p /home/${CLASSNAME}
+cd /home/${CLASSNAME}
+git init &>/dev/null
+git config core.sparsecheckout true
+git remote add origin https://github.com/igakilab/${CLASSNAME}.git
+echo $COURSEYEAR/env > .git/info/sparse-checkout
+echo $COURSEYEAR/etc >> .git/info/sparse-checkout
+echo $COURSEYEAR/local >> .git/info/sparse-checkout
+
+echo "開発環境データを取得します"
+echo -n "ダウンロード中........."
+git pull origin master &>/dev/null
+
+if [ $? -ne 0 ]; then
+  echo -e "${RB}開発環境データのダウンロードに失敗しました．${RE}"
+  echo "ネットワーク接続を確認し，コマンドを再実行して下さい．"
+  exit 1
+fi
+
+echo "完了しました"
+#find . -type d | xargs touch -d ${dirdate}
+
+exit 0
