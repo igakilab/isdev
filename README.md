@@ -27,3 +27,7 @@
 - .project
 - settings.json(2つ)
 - course*
+
+## 課題
+#### git-bashでjavaのエラーメッセージが文字化ける
+- `export GRADLE_OPTS="-Dfile.encoding=utf-8"` をbash_profileに追加して解決した

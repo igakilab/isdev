@@ -44,3 +44,4 @@ if [ ! -e "/home/${USERNAME}" ]; then
 fi
 
 export JAVA_HOME=/c/oit/$COURSEYEAR/`/usr/local/bin/coursejdk`/
+export GRADLE_OPTS="-Dfile.encoding=utf-8"
