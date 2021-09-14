@@ -68,11 +68,12 @@ rsync --timeout=15 --force -avu ${DFLAG} \
         --exclude='.log' \
         --exclude='.git' \
         --exclude='#*'      \
-        ~/kadai/${COURSEYEAR} ${id}@${rhost}:kadai/ > ~/kadai/.up
+        ~/kadai/${COURSEYEAR} ${id}@${rhost}:kadai/ > ~/kadai/.up 2>~/kadai/.error
 if [ $? -gt 0 ]; then
   echo -e "${RB}rsyncは失敗しました．${RE} `date`"
   if [[ -f ~/kadai/.up ]]; then
     rm ~/kadai/.up
+    rm ~/kadai/.error
   fi
   exit 2
 fi
@@ -80,14 +81,20 @@ fi
 rsync_msg=`cat ~/kadai/.up | grep -v -e '/\.' -e 'sending incremental file list' -e 'bytes/sec' -e 'total size is'`
 rsync_msg_size=`cat ~/kadai/.up | grep -v -e '/\.' -e 'sending incremental file list' -e 'bytes/sec' -e 'total size is' | wc -l`
 
+if grep "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED" ~/kadai/.error 1>/dev/null 2>&1; then
+  ssh-keygen -R ${rhost} >/dev/null
+fi
+
 if [ $rsync_msg_size -gt 1 ]; then
   echo "Uploadファイル一覧"
   echo -e ${rsync_msg}
   echo -e "${GB}rsyncは成功しました${GE} `date`"
   rm ~/kadai/.up
+  rm ~/kadai/.error
   exit 0
 else
   echo -e "${GB}更新ファイルがありませんでした${GE} `date`"
   rm ~/kadai/.up
+  rm ~/kadai/.error
   exit 1
 fi
