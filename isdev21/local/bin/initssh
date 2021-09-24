@@ -82,6 +82,8 @@ if cat "${PUBKEY}" | ssh "${id}@${RHOST}" "${RCOMM}"; then
     echo -e "\n${GB}完了しました${GE}"
 else
     echo -e "\n${RB}失敗しました${RE}"
+#Remote host identification has changed対策 by Igaki
+    ssh-keygen -R "${RHOST}" >/dev/null
     exit 1
 fi
 exit 0
