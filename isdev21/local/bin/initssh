@@ -83,7 +83,8 @@ if cat "${PUBKEY}" | ssh "${id}@${RHOST}" "${RCOMM}"; then
 else
     echo -e "\n${RB}失敗しました${RE}"
 #Remote host identification has changed対策 by Igaki
-    ssh-keygen -R "${RHOST}" >/dev/null
+    #ssh-keygen -R "${RHOST}" >/dev/null
+    rm -f ~/.ssh/known_hosts
     exit 1
 fi
 exit 0
