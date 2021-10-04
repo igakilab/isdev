@@ -58,7 +58,7 @@ rhost="`/usr/local/bin/kadaihost`"
 
 [ -d ~/kadai/${COURSEYEAR} ] || mkdir -p -m ${dmode} ~/kadai/${COURSEYEAR}
 
-rsync --timeout=15 --force -avu ${DFLAG} \
+rsync --timeout=30 --force -avu ${DFLAG} \
         --chmod=D${dmode},F${fmode}   \
         --exclude='*.exe'   \
         --exclude='*.o'     \

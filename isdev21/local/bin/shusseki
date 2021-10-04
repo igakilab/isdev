@@ -35,7 +35,7 @@ function end_proc(){
 [ ! -d "$HOME/kadai/$COURSEYEAR/.log" ] && mkdir -p "$HOME/kadai/$COURSEYEAR/.log"
 echo "[Shusseki Start]#`date +'%s'`" >> "${HISTFILE}"
 
-INTERVAL="10"
+INTERVAL="30"
 echo -e "==== 今から${INTERVAL}秒ごとに課題を提出します ===="
 /usr/local/bin/upkadai
 find ~/kadai/`/usr/local/bin/course`/ -not -path '*/.git/*' -not -path '*/.log/*' -not -name '.*' -not -name '*.class' -ls > ~/kadai/.found
