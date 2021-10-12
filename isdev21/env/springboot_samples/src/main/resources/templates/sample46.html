@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>SpringBoot Sample4-6</title>
+</head>
+
+<body>
+  <h1>Authorized! <span sec:authentication="name"></span>
+  </h1>
+  <a href="/logout">ログアウト</a>
+
+  <h2>Online Chamber</h2>
+
+  <a href="/sample4/step7">身長が登録されているユーザ一覧</a>
+  <div th:each="chamberUser,stat:${chamberUsers7}">
+    <tr>
+      <td>Index:[[${stat.index}]]</td>
+      <td>ユーザ名:[[${chamberUser.user}]]</td>
+      <td>小屋番号:[[${chamberUser.number}]]</td>
+      <td>身長:[[${chamberUser.height}]]</td>
+    </tr>
+  </div>
+  <P>
+    あなたの身長を入力してください
+  <form th:action="@{/sample4/step8}" method="post">
+    <!-- stepで小数点以下何桁を入力させるか指定する-->
+    <input type="number" step="0.1" name="height" />
+    <input type="submit" value="登録"><input type="reset" value="リセット">
+  </form>
+  </P>
+
+
+
+</body>
+
+</html>
