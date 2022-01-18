@@ -20,8 +20,6 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[credential]
-	helper = helper-selector
 [alias]
 	st = status
 	stt = status -uno
