@@ -63,6 +63,7 @@ rsync --timeout=15 --force -avu ${DFLAG} \
         --exclude='*.exe'   \
         --exclude='*.o'     \
         --exclude='*.class' \
+        --exclude='*.lock' \
         --exclude='*~'      \
         --exclude='.vscode' \
         --exclude='.log' \
