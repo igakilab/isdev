@@ -21,7 +21,8 @@
 	process = git-lfs filter-process
 	required = true
 [credential]
-	helper = helper-selector
+	helper = manager-core
+	guiPrompt = false
 [alias]
 	st = status
 	stt = status -uno

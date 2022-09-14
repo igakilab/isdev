@@ -16,12 +16,12 @@ help(){
 	  putkadaiで課題が提出できていることの確認に用います．
 	
 	使い方:
-	  $ showkadai 授業名 提出ディレクトリ
+	  $ showkadai 授業名(javaの後に年度2桁) 提出ディレクトリ
 	
 	例:
-	  $ showkadai java21 lec05
-	  $ showkadai java21 test01
-	  $ showkadai java21 test03
+	  $ showkadai java22 lec05
+	  $ showkadai java23 test01
+	  $ showkadai java24 test03
 	
 	EOF
 }
@@ -90,7 +90,7 @@ echo "（拡張子が .c, .h, .java, .txt のファイルしか表示してい�
 echo "左(このパソコン)と右(ファイルサーバ)が一致していることを確認してください．"
 echo "* ファイル名が長い場合，末尾が省略されます．"
 echo -e "* 左右で一致していない場合，<>|のいずれかが中央に表示されます．このときは${RB}shusseki コマンドが正常に実行できていない${RE}可能性が高いです．"
-echo "* なお，msystem上の表示は決まった時刻にしか更新されないため，右(ファイルサーバ)と必ずしも一致しません．また，更新日時が締め切りを過ぎていた場合は回収されないためmsystemにも表示されません"
+echo "* なお，msystem上の表示は決まった時刻にしか更新されないため，右(ファイルサーバ)と必ずしも一致しません．特に締め切りを過ぎて提出された場合は回収されないため，msystemにも表示されません．"
 diff -y -W 83 <(eval "(cd ;${LSCMD})" | post_filter_diff) <(sshrun "${LSCMD}" | post_filter_diff)
 
 exit 
