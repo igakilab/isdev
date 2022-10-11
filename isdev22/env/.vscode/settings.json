@@ -2,6 +2,7 @@
   "files.encoding": "utf8",
   "java.trace.server": "messages",
   "java.errors.incompleteClasspath.severity": "ignore",
+  "editor.inlayHints.enabled": "offUnlessPressed",
   "extensions.ignoreRecommendations": true,
   "files.exclude": {
     "**/bin/": true,
@@ -55,5 +56,6 @@
   "editor.matchBrackets": "always", // 対応する括弧の強調表示をオンに
   "git.enabled": false,
   "telemetry.enableTelemetry": false,
-  "telemetry.enableCrashReporter": false
+  "telemetry.enableCrashReporter": false,
+  "java.configuration.updateBuildConfiguration": "automatic"
 }
