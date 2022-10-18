@@ -38,9 +38,9 @@ public class Sample41Controller {
     return "sample43.html";
   }
 
-  @GetMapping("step4")
-  public String sample44() {
-    return "sample44.html";
+  @GetMapping("step5")
+  public String sample45() {
+    return "sample45.html";
   }
 
   @GetMapping("step6")
@@ -90,7 +90,7 @@ public class Sample41Controller {
   public String sample45(@RequestParam String chamberName, ModelMap model) {
     ArrayList<Chamber> chambers5 = chamberMapper.selectAllByChamberName(chamberName);
     model.addAttribute("chambers5", chambers5);
-    return "sample44.html";
+    return "sample45.html";
   }
 
   @GetMapping("step7")
