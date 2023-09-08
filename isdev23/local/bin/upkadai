@@ -1,0 +1,103 @@
+#!/bin/bash
+#
+# Written by Yasuharu Mizutani.
+# Modified by Hiroshi Igaki.
+
+usage(){
+    cat <<-EOF
+	
+	使い方:
+	  upkadai 
+	  upkadai --delete
+	
+	このPCのホームディレクトリ下にあるkadai/javaYYディレクトリ（~/kadai/javaYY）(YYには年度情報が入る)をファイル
+    サーバ上のkadai/javaYYディレクトリに提出(リモートコピー)します．
+	
+	サーバ名はデフォルトでは o-vnc.center.oit.ac.jp です．
+	環境変数 KADAI_HOST でサーバ名を指定することができます．
+	(例) env KADAI_HOST=pc1350l upkadai
+	
+	--deleteを付けると~/kadai/javaYYとサーバ上のkadai/javaYY/を完全同期します．
+	つまり，サーバ上のjavaYYにあってローカルの~/kadai/javaYYに無いファイルは，サーバ上から
+	削除されます．使い方を誤るとサーバ上の必要なファイルまで削除してしまう
+	可能性があるため，--deleteの使用は十分に気を付けてください．
+	
+	EOF
+}
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+DFLAG=""
+if [ "$#" -ge 1 ]; then
+    case "$1" in
+        -h|-help|--help)
+            usage
+            exit 0
+            ;;
+        --delete)
+            DFLAG="--delete"
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+fi
+
+id="`/usr/local/bin/oitname`" || exit 1
+
+case "$id" in
+    t*) dmode="750";fmode="640";;
+    *) dmode="705";fmode="604";;
+esac
+
+rhost="`/usr/local/bin/kadaihost`"
+
+[ -d ~/kadai/${COURSEYEAR} ] || mkdir -p -m ${dmode} ~/kadai/${COURSEYEAR}
+
+rsync --timeout=15 --force -avu ${DFLAG} \
+        --chmod=D${dmode},F${fmode}   \
+        --exclude='*.exe'   \
+        --exclude='*.o'     \
+        --exclude='*.class' \
+        --exclude='*.lock' \
+        --exclude='*~'      \
+        --exclude='.vscode' \
+        --exclude='.log' \
+        --exclude='.git' \
+        --exclude='#*'      \
+        ~/kadai/${COURSEYEAR} ${id}@${rhost}:kadai/ > ~/kadai/.up 2>~/kadai/.error
+if [ $? -gt 0 ]; then
+  echo -e "${RB}rsyncは失敗しました．${RE} `date`"
+  if [[ -f ~/kadai/.up ]]; then
+    cat ~/kadai/.error
+    rm ~/kadai/.up
+    rm ~/kadai/.error
+  fi
+  echo "現在，情報センターのサーバの問題で失敗することがあります．一度でも成功すれば提出は無事にできているので，失敗の原因が思い当たらないようであれば暫くshussekiコマンドを実行したままファイルを編集して様子を見てみてください"
+  exit 2
+fi
+
+rsync_msg=`cat ~/kadai/.up | grep -v -e '/\.' -e 'sending incremental file list' -e 'bytes/sec' -e 'total size is'`
+rsync_msg_size=`cat ~/kadai/.up | grep -v -e '/\.' -e 'sending incremental file list' -e 'bytes/sec' -e 'total size is' | wc -l`
+
+if grep "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED" ~/kadai/.error 1>/dev/null 2>&1; then
+  ssh-keygen -R ${rhost} >/dev/null
+fi
+
+if [ $rsync_msg_size -gt 1 ]; then
+  echo "Uploadファイル一覧"
+  echo -e ${rsync_msg}
+  echo -e "${GB}rsyncは成功しました${GE} `date`"
+  rm ~/kadai/.up
+  rm ~/kadai/.error
+  exit 0
+else
+  echo -e "${GB}更新ファイルがありませんでした${GE} `date`"
+  rm ~/kadai/.up
+  rm ~/kadai/.error
+  exit 1
+fi

@@ -1,0 +1,62 @@
+#!/bin/bash
+#
+# Written by Yasuharu Mizutani.
+# Modified by Hiroshi Igaki
+
+usage(){
+    cat <<-EOF
+	
+	使い方:
+	    setup${CLASSNAME}
+	
+	~/kadai/$COURSEYEAR/を更新する．
+	
+	EOF
+}
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+if [ "$#" -ge 1 ]; then
+    case "$1" in
+        -h|-help|--help)
+            usage
+            exit 0
+            ;;
+        -v|-version)
+            echo 20200428
+            exit 0
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+fi
+
+echo "~/kadai/${COURSEYEAR}/を更新します．"
+if [ ! -e /home/${CLASSNAME}/$COURSEYEAR/env ]; then
+  initgitrepo
+else
+  cd /home/${CLASSNAME}
+  git pull origin master &>/dev/null
+  if [ $? -ne 0 ]; then
+    echo -e "${RB}開発環境データのダウンロードに失敗しました．${RE}"
+    echo "ネットワーク接続を確認し，コマンドを再実行して下さい．"
+    exit 1
+  fi
+fi
+
+rsync -a --checksum --timeout=15 /home/${CLASSNAME}/$COURSEYEAR/env/ ~/kadai/${COURSEYEAR}/
+
+if [ $? -ne 0 ]; then
+  echo -e "${RB}開発環境データのダウンロードに失敗しました．${RE}"
+  echo "ネットワーク接続を確認し，コマンドを再実行して下さい．"
+  exit 1
+fi
+
+echo -e "${GB}更新は完了しました．${GE}"
+
+exit 0
