@@ -30,7 +30,7 @@
   "telemetry.telemetryLevel": "off",
   "security.workspace.trust.untrustedFiles": "open",
   "local-history.maxDisplay": 10, //Local History関連
-  "local-history.path": "${workspaceFolder}/../.log",
+  "local-history.path": "${workspaceFolder}/.log",
   "local-history.enabled": 2, // Save only files within workspaceFolder
   "local-history.exclude": [
     "**/.history /**",
