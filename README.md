@@ -29,5 +29,15 @@
 - course*
 
 ## 課題
+#### bashターミナルでjavacのエラーメッセージが文字化ける
+- 下記修正
+- javac↓を/usr/local/binに追加する
+```
+#!/bin/sh
+( (/c/oit/${BYOD}/`/usr/local/bin/coursejdk`/bin/javac -encoding utf8 "$@" | nkf 1>&3) 2>&1 | nkf 1>&2) 3>&1
+```
+- export PATH=$PATH:/c/oit/${BYOD}/`/usr/local/bin/coursejdk`/bin/ にbash_profile.shのL22を修正する
+- aliases.shのL13~19をコメントアウトする
+
 #### git-bashでjavaのエラーメッセージが文字化ける
 - `export GRADLE_OPTS="-Dfile.encoding=utf-8"` をbash_profileに追加して解決した
