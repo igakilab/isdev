@@ -46,3 +46,4 @@ fi
 
 export JAVA_HOME=/c/oit/${BYOD}/`/usr/local/bin/coursejdk`/
 export GRADLE_OPTS="-Dfile.encoding=utf-8"
+export _JAVA_OPTIONS="-Dfile.encoding=SHIFT-JIS"
