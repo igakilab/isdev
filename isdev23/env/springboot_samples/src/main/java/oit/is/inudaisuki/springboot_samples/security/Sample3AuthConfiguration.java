@@ -32,10 +32,14 @@ public class Sample3AuthConfiguration {
             .authenticated() // /sample3/以下は認証済みであること
             .requestMatchers(AntPathRequestMatcher.antMatcher("/sample4/**"))
             .authenticated() // /sample4/以下は認証済みであること
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/sample5/**"))
+            .authenticated() // /sample4/以下は認証済みであること
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/sample58*"))
+            .authenticated() // /sample4/以下は認証済みであること
             .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
             .permitAll())// 上記以外は全員アクセス可能
         .csrf(csrf -> csrf
-            .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/*")))
+            .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/*")))// h2-console用にCSRF対策を無効化
         .headers(headers -> headers
             .frameOptions(frameOptions -> frameOptions
                 .sameOrigin()));
@@ -62,9 +66,24 @@ public class Sample3AuthConfiguration {
         .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e").roles("USER").build();
     UserDetails admin = User.withUsername("admin")
         .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e").roles("ADMIN").build();
+    // $ sshrun htpasswd -nbBC 10 customer1 p@ss
+    UserDetails customer1 = User.withUsername("customer1")
+        .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
+        .roles("CUSTOMER")
+        .build();
+    // $ sshrun htpasswd -nbBC 10 customer2 p@ss
+    UserDetails customer2 = User.withUsername("customer2")
+        .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
+        .roles("CUSTOMER")
+        .build();
+    // $ sshrun htpasswd -nbBC 10 seller p@ss
+    UserDetails seller = User.withUsername("seller")
+        .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
+        .roles("SELLER")
+        .build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
-    return new InMemoryUserDetailsManager(user1, user2, admin);
+    return new InMemoryUserDetailsManager(user1, user2, admin, customer1, customer2, seller);
   }
 
 }
