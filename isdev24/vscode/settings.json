@@ -1,0 +1,43 @@
+{
+  "terminal.integrated.defaultProfile.windows": "GitBash",
+  "terminal.integrated.profiles.windows": {
+    "GitBash": {
+      "path": "C:\\oit\\isdev24-byod\\PortableGit-2.42.0-64\\bin\\bash.exe",
+      "args": [
+        "-l"
+      ]
+    }
+  },
+  "terminal.integrated.env.windows": {
+    "MSYSTEM": "MINGW64",
+    "CHERE_INVOKING": "1"
+  },
+  "java.jdt.ls.java.home": "c:\\oit\\isdev24-byod\\amazonjdk21.0.3_9",
+  "java.jdt.ls.vmargs": "-noverify -Dfile.encoding=utf8 -Xmx1G -Xlog:jni+resolve=off", // -XX:+UseG1GC -XX:+UseStringDeduplication
+  "java.debug.settings.vmArgs": "-Xlog:jni+resolve=off",
+  "java.import.generatesMetadataFilesAtProjectRoot": false, //.projectなどの場所
+  "java.semanticHighlighting.enabled": true,
+  "java.trace.server": "messages",
+  "java.errors.incompleteClasspath.severity": "ignore",
+  "update.enableWindowsBackgroundUpdates": false,
+  "update.mode": "none",
+  "update.showReleaseNotes": false,
+  "extensions.autoUpdate": false,
+  "extensions.autoCheckUpdates": false,
+  "extensions.ignoreRecommendations": true,
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "window.zoomLevel": 1,
+  "telemetry.telemetryLevel": "off",
+  "security.workspace.trust.untrustedFiles": "open",
+  "local-history.maxDisplay": 10, //Local History関連
+  "local-history.path": "${workspaceFolder}/.log",
+  "local-history.enabled": 2, // Save only files within workspaceFolder
+  "local-history.exclude": [
+    "**/.history /**",
+    "**/.vscode**",
+    "**/.log**",
+    "**/bin/**",
+    "*.class",
+  ],
+  "workbench.startupEditor": "welcomePageInEmptyWorkbench",
+}

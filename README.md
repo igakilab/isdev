@@ -3,9 +3,7 @@
 - このリポジトリの内容はBYOD下を想定したポータブルなSpring Boot開発環境である
 - 学生が解く課題を保存するフォルダ(vscode設定ファイル付き)，PortableGit内の独自コマンド，PortableGitのバイナリを実行するためのオプション付きexeを作成するフォルダの3つをこのリポジトリで管理する
 - 想定するプログラミング演習の言語はJava
-- 実行環境はAmazon Correto11＋PortableGit+Visual Studio Code+Gradle
-
-
+- 実行環境はAmazon Correto21＋PortableGit+Visual Studio Code+Gradle
 
 
 ## 演習環境のセットアップ
@@ -20,13 +18,21 @@
 - Local History
 
 ### 要変更(Javaから)
-- (zipwork.sh)
-- update_local_diff.sh
-- nsswitch.conf
+- gradleフォルダの追加
+- coursegradleの追加
+- courseの修正
+- nsswitch.confの修正
+- aliases.shの修正
+- bash_profile.shの修正
+  - PATHの設定，GRADLE_OPTSの設定，_JAVA_OPTIONSの設定
+- git-prompt.shの修正
+  - git_ps1関連のコメントアウト
+- vscode/settings.jsonの修正
+  - java24->isdev24
+
 - デフォルトブランチはmaster (init git repo等複数のコマンドが影響を受けるため．要検討）
 - .project
 - settings.json(2つ)
-- course*
 
 ## 課題
 #### bashターミナルでjavacのエラーメッセージが文字化ける
