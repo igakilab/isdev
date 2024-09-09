@@ -10,7 +10,8 @@
 ### vscodeの拡張機能の追加
 - Debugger for Java
 - EvilInspector
-- Gradle Language Support
+- Gradle for Java
+  - 差し替え？Gradle Language Support
 - Japanese Language Pack
 - Language Support for Java
 - Spring Initializr Java Support

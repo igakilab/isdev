@@ -5,7 +5,7 @@
   "workbench.editor.tabSizing": "shrink", // タブの表示設定
   "files.encoding": "utf8",
   "files.exclude": {
-    "bin/": true,
+    "**/bin/": true,
     ".*": true,
     "**/.*": true,
     "**/.classpath": true,
