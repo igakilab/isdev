@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Written by Hiroshi Igaki.
+HISTFILE="$HOME/kadai/$COURSEYEAR/.log/.${CLASSNAME}_bash_history.$HISTDATE"
+LOGDIR=~/kadai/$COURSEYEAR/.log/
+VSHISTDIR="${LOGDIR}.history/"
+VSHIST7Z="${LOGDIR}.hist`date "+%Y%m%d%H%M%S"`.7z"
+
+usage(){
+    cat <<-EOF
+	
+	使い方:
+	  archivelog or archivelog --force
+		
+	EOF
+}
+
+FFLAG=""
+if [ "$#" -ge 1 ]; then
+    case "$1" in
+        -h|-help|--help)
+            usage
+            exit 0
+            ;;
+        --force)
+            FFLAG="--force"
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+fi
+
+# if VSHIST7Z are not generated within 30 minutes, archive logs
+if [ "$(find "${LOGDIR}" -name \*.7z -mmin -30 | wc -l)" -eq 0 ] || [ "$FFLAG" = "--force" ]; then
+  if [ -d "$VSHISTDIR" ]; then
+    7za a "$VSHIST7Z" -y -bsp0 -bso0 "$VSHISTDIR" -sdel 2>/dev/null
+    if [ $? -gt 0 ]; then
+      echo [`date +%s`]archivelog 7zip archive failed >> ${HISTFILE}
+    fi
+  fi
+fi
+# delete 7z files older than 63 days
+find "${LOGDIR}" -name \*.7z -daystart -mtime +62 | xargs rm -rf

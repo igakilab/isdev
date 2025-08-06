@@ -1,0 +1,90 @@
+{
+  "terminal.integrated.defaultProfile.windows": "GitBash",
+  "terminal.integrated.profiles.windows": {
+    "GitBash": {
+      "path": "C:\\oit\\isdev25-byod\\PortableGit-2.50.0-64\\bin\\bash.exe",
+      "args": [
+        "-l"
+      ]
+    }
+  },
+  "terminal.integrated.env.windows": {
+    "MSYSTEM": "MINGW64",
+    "CHERE_INVOKING": "1"
+  },
+  "java.jdt.ls.java.home": "c:\\oit\\isdev25-byod\\amazonjdk21.0.7_6",
+  "java.jdt.ls.vmargs": "-noverify -Dfile.encoding=utf8 -Xmx1G -Xlog:jni+resolve=off", // -XX:+UseG1GC -XX:+UseStringDeduplication
+  "java.debug.settings.vmArgs": "-Xlog:jni+resolve=off -Dfile.encoding=COMPAT",
+  "java.import.generatesMetadataFilesAtProjectRoot": false, //.projectなどの場所
+  "java.semanticHighlighting.enabled": true,
+  "java.trace.server": "messages",
+  "java.errors.incompleteClasspath.severity": "ignore",
+  "update.enableWindowsBackgroundUpdates": false,
+  "update.mode": "none",
+  "update.showReleaseNotes": false,
+  "extensions.autoUpdate": false,
+  "extensions.autoCheckUpdates": false,
+  "extensions.ignoreRecommendations": true,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "window.zoomLevel": 1,
+  "telemetry.telemetryLevel": "off",
+  "security.workspace.trust.untrustedFiles": "open",
+  "local-history.maxDisplay": 10, //Local History関連
+  "local-history.path": "${workspaceFolder}/.log",
+  "local-history.enabled": 2, // Save only files within workspaceFolder
+  "local-history.exclude": [
+    "**/.history /**",
+    "**/.vscode**",
+    "**/.log**",
+    "**/bin/**",
+    "*.class",
+  ],
+  "workbench.startupEditor": "none",
+  "git.ignoreMissingGitWarning": true,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.labelFormat": "short", // タブに表示する文字列の設定
+  "workbench.editor.tabSizing": "shrink", // タブの表示設定
+  "files.encoding": "utf8",
+  "files.exclude": {
+    "bin/": true,
+    ".*": true,
+    "**/.*": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+  },
+  "files.eol": "\n",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 5000,
+  "files.insertFinalNewline": true, // ファイルの保存時に末尾を改行
+  "files.trimFinalNewlines": true, // ファイルの保存時に最終行以降をトリミング
+  "files.trimTrailingWhitespace": true, // ファイルの保存時に行末の空白をトリミング
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "editor.codeLens": false,
+  "editor.renderWhitespace": "boundary",
+  "editor.fontFamily": "Consolas, monospace",
+  "editor.fontSize": 15,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.tabSize": 2,
+  "editor.tabCompletion": "on",
+  "editor.detectIndentation": false,
+  "editor.wordWrap": "on",
+  "editor.renderControlCharacters": true,
+  "editor.minimap.showSlider": "always",
+  "editor.renderLineHighlight": "all", // 選択行を行番号含めすべてハイライト
+  "editor.quickSuggestions": {
+    "comments": false, // コメント内では無効
+    "strings": true, // 文字列内では有効
+    "other": true //  その他の場所で有効
+  },
+  "editor.folding": true, // コードの折りたたみを許可
+  "editor.lineNumbers": "on", // 行番号の表示
+  "editor.matchBrackets": "always", // 対応する括弧の強調表示をオンに
+  "git.enabled": false,
+  "editor.inlineSuggest.enabled": true,
+  "java.compile.nullAnalysis.mode": "disabled",
+  "java.configuration.updateBuildConfiguration": "automatic",
+}

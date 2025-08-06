@@ -1,0 +1,78 @@
+#!/bin/bash
+#
+# Written by Yasuharu Mizutani.
+# Modified by Hiroshi Igaki.
+
+#コマンド実行履歴を保存するファイル．bash_profile.shで定義されている変数を利用している
+HISTFILE="$HOME/kadai/$COURSEYEAR/.log/.${CLASSNAME}_bash_history.$HISTDATE"
+
+usage(){
+    cat <<-EOF
+	
+	使い方:
+	  uplog 
+	
+	このPCのホームディレクトリ下にあるkadai/javaYY/.logディレクトリ（~/kadai/javaYY）(YYには年度情報が入る)をファイル
+    サーバ上のkadai/javaYY/.logディレクトリに提出(リモートコピー)します．
+	
+	サーバ名はデフォルトでは o-vnc.center.oit.ac.jp です．
+	環境変数 KADAI_HOST でサーバ名を指定することができます．
+	(例) env KADAI_HOST=pc1350l upkadai
+	
+	--deleteがついていると~/kadai/javaYY/.logとサーバ上のkadai/javaYY/.log/を完全同期します．
+	つまり，サーバ上のjavaYYにあってローカルの~/kadai/javaYYに無いファイルは，サーバ上から削除されます
+	
+	EOF
+}
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+DFLAG=""
+if [ "$#" -ge 1 ]; then
+    case "$1" in
+        -h|-help|--help)
+            usage
+            exit 0
+            ;;
+        --delete)
+            DFLAG="--delete"
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+fi
+
+id="`/usr/local/bin/oitname`" || exit 1
+
+case "$id" in
+    t*) dmode="750";fmode="640";;
+    *) dmode="705";fmode="604";;
+esac
+
+rhost="`/usr/local/bin/kadaihost`"
+
+[ -d ~/kadai/${COURSEYEAR}/.log ] || mkdir -p -m ${dmode} ~/kadai/${COURSEYEAR}/.log
+
+rsync --timeout=15 --force -avu ${DFLAG} \
+        --chmod=D${dmode},F${fmode}   \
+        --exclude='*.exe'   \
+        --exclude='*.o'     \
+        --exclude='*.class' \
+        --exclude='*~'      \
+        --exclude='.vscode' \
+        --exclude='.history' \
+        --exclude='.git' \
+        --exclude='#*'      \
+        ~/kadai/${COURSEYEAR}/.log ${id}@${rhost}:kadai/${COURSEYEAR}/ > /dev/null
+if [ $? -gt 0 ]; then
+  echo -e "[uplog]rsync(log)は失敗しました．`date`" >> "${HISTFILE}"
+  exit 2
+fi
+
+echo -e "[uplog]rsync(log)は成功しました `date`" >> "${HISTFILE}"
+exit 0
