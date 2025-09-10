@@ -48,6 +48,7 @@
   "files.encoding": "utf8",
   "files.exclude": {
     "bin/": true,
+    "**/bin/": true,
     ".*": true,
     "**/.*": true,
     "**/.classpath": true,
