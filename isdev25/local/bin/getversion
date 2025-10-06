@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ "$#"  = "1" ] && [ "$1" = "-v" ]; then
-    echo -n [localenv]202509181034
+    echo -n [localenv]202510061325
 else
-    echo -n [localenv]20250918
+    echo -n [localenv]20251006
 fi
 echo \#`date +%s`
