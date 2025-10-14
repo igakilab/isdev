@@ -4,4 +4,3 @@ INSERT INTO chamber (userName,chamberName) VALUES ('ふくやす','マリーナ�
 INSERT INTO userinfo (userName,age,height) VALUES ('いがき',30,176.1);
 INSERT INTO userinfo (userName,age,height) VALUES ('ほんだ',18,172.3);
 INSERT INTO userinfo (userName,age,height) VALUES ('ふくやす',NULL,199.9);
-INSERT INTO chamber(userName, chamberName) VALUES('ふくやす', '秘密の小部屋');
