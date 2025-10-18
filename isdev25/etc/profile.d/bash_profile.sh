@@ -19,7 +19,7 @@ export BYOD=${COURSEYEAR}-byod
 
 mkdir -p "$USERPROFILE/oithomes/$CLASSNAME/kadai/$COURSEYEAR/.log/"
 
-export PATH=/c/oit/${BYOD}/`/usr/local/bin/coursejdk`/bin/:$PATH
+export PATH=$PATH:/c/oit/${BYOD}/`/usr/local/bin/coursejdk`/bin/
 export PATH=/c/oit/${BYOD}/`/usr/local/bin/coursevscode`/:$PATH
 export PATH=/c/oit/${BYOD}/`/usr/local/bin/coursegradle`/bin/:$PATH
 export HOME=$(cd "$USERPROFILE\oithomes\\${CLASSNAME}" && pwd)
