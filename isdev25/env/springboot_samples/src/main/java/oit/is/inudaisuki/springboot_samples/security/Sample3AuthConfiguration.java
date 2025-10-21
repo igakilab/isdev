@@ -29,6 +29,8 @@ public class Sample3AuthConfiguration {
         .authorizeHttpRequests(authz -> authz
             .requestMatchers("/sample3/**").authenticated() // /sample3/以下は認証済みであること
             .requestMatchers("/sample4/**").authenticated() // /sample4/以下は認証済みであること
+            .requestMatchers("/sample5/**").authenticated() // /sample5/以下は認証済みであること
+            .requestMatchers("/sample58*").authenticated() // /sample58*は認証済みであること
             .anyRequest().permitAll()) // 上記以外は全員アクセス可能
         .csrf(csrf -> csrf
             .ignoringRequestMatchers("/h2-console/*", "/sample2*/**")) // sample2用にCSRF対策を無効化
@@ -57,9 +59,24 @@ public class Sample3AuthConfiguration {
         .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e").roles("USER").build();
     UserDetails admin = User.withUsername("admin")
         .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e").roles("ADMIN").build();
+    // customer1 p@ss
+    UserDetails customer1 = User.withUsername("customer1")
+        .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
+        .roles("CUSTOMER")
+        .build();
+    // customer2 p@ss
+    UserDetails customer2 = User.withUsername("customer2")
+        .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
+        .roles("CUSTOMER")
+        .build();
+    // seller p@ss
+    UserDetails seller = User.withUsername("seller")
+        .password("{bcrypt}$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
+        .roles("SELLER")
+        .build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
-    return new InMemoryUserDetailsManager(user1, user2, admin);
+    return new InMemoryUserDetailsManager(user1, user2, admin, customer1, customer2, seller);
   }
 
 }
