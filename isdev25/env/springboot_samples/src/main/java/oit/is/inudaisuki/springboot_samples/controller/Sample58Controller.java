@@ -1,13 +1,11 @@
 package oit.is.inudaisuki.springboot_samples.controller;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,7 +57,7 @@ public class Sample58Controller {
       logger.info(g.getAuthority());
     }
     // SseEmitterの生成
-    SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+    SseEmitter emitter = new SseEmitter(60000L); // タイムアウト時間を60秒に設定
     this.emitterCounter++;// newされたemitterの数
     String role = new String();
 
@@ -85,30 +83,5 @@ public class Sample58Controller {
     }
     return emitter;
 
-  }
-
-  /**
-   * 3秒おきにmap内の全SseEmitterにheartbeatメッセージを送るメソッド
-   * Scheduledアノテーションは引数をもたないメソッドを一定時間ごとに実行する
-   * この例の場合3秒ごと
-   * Scheduled を使うときは @SpringBootApplicationアノテーションの前に@EnableSchedulingをつける
-   */
-  @Scheduled(fixedRate = 3000)
-  public void heartbeat() {
-
-    // this.semap内のすべてのIDとSseEmitterを取得し，heartbeatメッセージを送る
-    for (Map.Entry<String, SseEmitter> entry : this.semap.entrySet()) {
-      logger.info("heartbeat");
-      try {
-        entry.getValue().send(SseEmitter.event()
-            .data("heartbeat")
-            .id("" + entry.getKey()));
-      } catch (IOException e) {
-        // 例外の名前とメッセージを表示し，mapから対象のemitterを削除する
-        logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
-        logger.info("emitter" + entry.getKey() + " is removed");
-        this.semap.remove(entry.getKey());
-      }
-    }
   }
 }
