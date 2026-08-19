@@ -1,0 +1,24 @@
+#!/bin/bash
+# Written by Yasuharu Mizutani.
+# Modified by Hiroshi Igaki.
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+VS7Z="${COURSEYEAR}_`date "+%y%m%d%H%M%S"`.7z"
+
+echo "課題ファイルをアーカイブします"
+
+7za a "$VS7Z" -y -bsp0 -bso0 "$HOME/kadai/$COURSEYEAR/" -xr!*.7z -xr!*.class
+
+if [ $? -ne 0 ]; then
+  echo -e "$RB 課題ファイルのアーカイブに失敗しました $RE"
+  echo -e "$RB もう一度zipworkを実行して下さい $RE"
+  exit 1
+fi
+
+  echo `pwd` に "$VS7Z" が作成されました．
+  echo -e "$GB ${VS7Z} ファイルを提出して下さい．$GE"
+  echo -e "提出後は ${VS7Z}を削除しても構いません．"

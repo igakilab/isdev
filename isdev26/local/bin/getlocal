@@ -1,0 +1,69 @@
+#!/bin/bash
+#
+# Written by Yasuharu Mizutani.
+# Modified by Hiroshi Igaki
+
+usage(){
+    cat <<-EOF
+	
+	使い方:
+	    getlocal
+	
+	/usr/localを更新する．
+	
+	EOF
+}
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+if [ "$#" -ge 1 ]; then
+    case "$1" in
+        -h|-help|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+fi
+
+if [ ! -e /home/${CLASSNAME}/$COURSEYEAR ]; then
+  initgitrepo
+else
+  cd /home/${CLASSNAME}
+  git pull origin master &>/dev/null
+  if [ $? -ne 0 ]; then
+    echo -e "${RB}更新に失敗しました．${RE}"
+    echo "ネットワーク接続を確認し，コマンドを再実行して下さい．"
+    exit 1
+  fi
+fi
+
+localdir="/home/${CLASSNAME}/$COURSEYEAR/local"
+
+echo "各種コマンドを更新します．"
+rsync -a --checksum --timeout=15 --delete ${localdir}/ /usr/local/
+
+profiledir="/home/${CLASSNAME}/$COURSEYEAR/etc"
+vscoderepo="/home/${CLASSNAME}/$COURSEYEAR/vscode/settings.json"
+vscodelocal="/c/oit/${BYOD}/`/usr/local/bin/coursevscode`/data/user-data/User/settings.json"
+echo "各種設定を更新します．"
+rsync -a --checksum --timeout=15 ${vscoderepo} ${vscodelocal}
+rsync -a --checksum --timeout=15 ${profiledir}/ /etc/
+
+if [ $? -ne 0 ]; then
+  echo -e "${RB}更新に失敗しました．${RE}"
+  echo "ネットワーク接続を確認し，コマンドを再実行して下さい．"
+  exit 1
+fi
+
+getversion >> ~/kadai/$COURSEYEAR/.log/.version.history
+
+echo -e "${GB}更新は完了しました．${GE}"
+
+exit 0

@@ -1,0 +1,66 @@
+#!/bin/bash
+# Written by Yasuharu Mizutani.
+# Modified by Hiroshi Igaki.
+# 実行方法： shusseki or shusseki -in
+# 後者の場合，kadaihostの演習室用PCのIPが利用されるようになる
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+#コマンド実行履歴を保存するファイル．bash_profile.shで定義されている変数を利用している
+HISTFILE="$HOME/kadai/$COURSEYEAR/.log/.${CLASSNAME}_bash_history.$HISTDATE"
+
+if [ "$#"  = "1" ] && [ "$1" = "-in" ]; then
+    echo "授業中オプションを確認しました．授業時間外の場合は停止してオプションなしでshussekiコマンドを再実行してください"
+    echo "ここでは演習室のマシンを利用して提出を行うため，たまにrsyncが失敗することがあります"
+    export KADAI_HOST_IN=ON
+fi
+
+
+#echo "出席スクリプトを起動します．"
+echo "出席スクリプトは演習の課題ファイルが更新されるたびにそのファイルを自動的にサーバに提出します．"
+echo -e "演習実施中や課題ファイル編集時には${GB}ずっと起動しておいてください${GE}(Ctr+Cで終了できます)．"
+#echo -n "> "
+#read input
+
+trap end_proc 1 2 3 15
+function end_proc(){
+  rm ~/kadai/.??* 2>/dev/null
+  echo "[Shusseki End]#`date +'%s'`" >> "${HISTFILE}"
+  echo '終了時の更新ファイルを提出し，出席スクリプトを終了します'
+  /usr/local/bin/upkadai
+  if [ $? -gt 1 ]; then
+    exit 1
+  else
+    /usr/local/bin/archivelog --force
+    /usr/local/bin/uplog --delete
+    exit 0
+  fi
+  unset KADAI_HOST_IN #授業中フラグをunset
+}
+
+[ ! -d "$HOME/kadai/$COURSEYEAR/.log" ] && mkdir -p "$HOME/kadai/$COURSEYEAR/.log"
+echo "[Shusseki Start]#`date +'%s'`" >> "${HISTFILE}"
+
+INTERVAL="30"
+echo -e "==== 今から${INTERVAL}秒ごとに課題を提出します ===="
+/usr/local/bin/upkadai
+find ~/kadai/$COURSEYEAR/ -not -path '*/.git/*' -not -path '*/.log/*' -not -name '.*' -not -name '*.class' -ls > ~/kadai/.found
+while :; do
+    find ~/kadai/$COURSEYEAR/ -not -path '*/.git/*' -not -path '*/.log/*' -not -name '.*' -not -name '*.class' -ls > ~/kadai/.tmp
+    if diff ~/kadai/.tmp ~/kadai/.found > /dev/null; then
+      #echo "sleep_if $INTERVAL"
+      sleep $INTERVAL
+    else
+      /usr/local/bin/upkadai
+      if [ $? -lt 1 ]; then
+        cp ~/kadai/.tmp ~/kadai/.found
+        /usr/local/bin/archivelog
+        /usr/local/bin/uplog
+      fi
+      #echo "sleep_else $INTERVAL"
+      sleep $INTERVAL
+    fi
+done

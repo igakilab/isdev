@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /c/windows/system32/ping.exe -t "$@" | /usr/bin/iconv -f cp932 -t utf-8

@@ -1,0 +1,32 @@
+#!/bin/bash -u
+#
+# 教員からの個別のメッセージを受信する
+#
+# Author: Yasuharu Mizutani
+
+usage_exit(){
+    cat <<-EOF
+	
+	教員からの個別のメッセージを受信する．
+	
+	使い方:
+	    recv 教員ID メッセージタグ
+	
+	    * 教員IDとメッセージタグは本ツールを使用する必要が生じた時に
+	      教員から通知される．
+	
+	EOF
+    exit "$@"
+}
+
+if [ "$#" -ne 2 ] || [ "$1" = "-h" ]; then
+    usage_exit 0
+fi
+staff="${1}"
+tag="${2}"
+
+id="`/usr/local/bin/oitname`" || exit 1
+rhost="`/usr/local/bin/kadaihost`"
+
+exec ssh "${id}@${rhost}" "/home/teachers/${staff}/MESSAGE/recv" "${tag}"
+

@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# 汎用修復ツール licensed by yasuharu mizutani
+
+exit 0

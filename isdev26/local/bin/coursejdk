@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ "$#"  = "1" ] && [ "$1" = "-v" ]; then
+    echo "amazonjdk25.0.4_7"
+else
+    echo "amazonjdk25.0.4_7"
+fi

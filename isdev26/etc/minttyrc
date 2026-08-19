@@ -1,0 +1,17 @@
+BoldAsFont=yes
+Font=ＭＳ ゴシック
+FontHeight=15
+FontSmoothing=full
+CursorType=block
+Locale=ja_JP
+Language=ja
+ThemeFile=mintty
+CopyAsRTF=no
+RightClickAction=paste
+Charset=UTF-8
+DeleteSendsDEL=no
+Term=xterm-256color
+ForegroundColour=255,255,255
+Transparency=medium
+Columns=85
+Rows=24

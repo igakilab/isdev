@@ -1,0 +1,97 @@
+#!/bin/bash
+#
+# Author: Yasuharu Mizutani
+# Modified by Hiroshi Igaki
+
+GB='\e[1;32m'
+GE='\e[m'
+RB='\e[1;31m'
+RE='\e[m'
+
+help(){
+    cat <<-EOF
+	概要:
+	  ファイルサーバ上の提出ディレクトリと，このパソコン上の
+	  一時保管ディレクトリの内容を表示します．
+	  putkadaiで課題が提出できていることの確認に用います．
+	
+	使い方:
+	  $ showkadai 授業名(javaの後に年度2桁) 提出ディレクトリ
+	
+	例:
+	  $ showkadai java22 lec05
+	  $ showkadai java23 test01
+	  $ showkadai java24 test03
+	
+	EOF
+}
+
+if [ "$#" -ne 2 ]; then
+    help
+    exit 1
+fi
+
+submitdir="kadai/$1/$2"
+
+#######################################################################
+# 以降，ユーザ名に空白などが入っている場合に備えて，ディレクトリ直下に
+# 移動して作業を進める（重要）．
+##[begin]##############################################################
+cd 
+##[end]################################################################
+
+
+if [ ! -d "${submitdir}" ]; then
+    echo "Error: このパソコン上に ~/${submitdir} が存在しません．"
+    exit 1
+fi
+
+
+# ファイルサーバ上に提出ディレクトリがあるか．
+# sshの接続に失敗したときはエラーメッセージを表示したくないので
+# 以下のような形にしている．
+if ! sshrun "[ -d ${submitdir} ]"; then
+    echo "Error: サーバに接続できない，または，ファイルサーバ上に${submitdir}が存在しません．"
+    exit 1
+fi
+
+#LSCMD="ls -l --time-style='+%Y/%m/%d_%H:%M:%S' ${submitdir}"
+#LSCMD="ls -og --time-style='+%Y/%m/%d_%H:%M:%S' ${submitdir}"
+LSCMD="ls -og --time-style='+%m/%d_%H:%M' ${submitdir}"
+LSCMDDIFF="ls -og --time-style='+%m/%d_%H:%M' ${submitdir}"
+
+post_filter(){
+    egrep '\.(c|h|java|txt)$' |\
+    awk 'BEGIN{print "ファイル 更新日時\n---------- -----------"}{print $5,$4}' |\
+    column -t  |\
+    /usr/bin/sed -e 's/^/    /'
+}
+
+post_filter_diff(){
+    egrep '\.(c|h|java|txt)$' |\
+    awk 'BEGIN{print "更新日時(ファイル名)"}{print $4,$5}' |\
+    /usr/bin/sed -e 's/^/    /'
+}
+
+
+clear
+#echo "(A) このパソコン上の ${submitdir} の内容"
+#echo ""
+#eval "(cd ; ${LSCMD})" | post_filter
+#echo ""
+
+#echo "(B) ファイルサーバ上の ${submitdir} の内容"
+#echo ""
+#sshrun "${LSCMD}" | post_filter
+#echo ""
+#sleep 0.3
+
+echo "（拡張子が .c, .h, .java, .txt のファイルしか表示していません）"
+echo "左(このパソコン)と右(ファイルサーバ)が一致していることを確認してください．"
+echo "* ファイル名が長い場合，末尾が省略されます．"
+echo -e "* 左右で一致していない場合，<>|のいずれかが中央に表示されます．このときは${RB}shusseki コマンドが正常に実行できていない${RE}可能性が高いです．"
+echo "* なお，msystem上の表示は決まった時刻にしか更新されないため，右(ファイルサーバ)と必ずしも一致しません．特に締め切りを過ぎて提出された場合は回収されないため，msystemにも表示されません．"
+diff -y -W 83 <(eval "(cd ;${LSCMD})" | post_filter_diff | sort -k2) <(sshrun "${LSCMD}" | post_filter_diff | sort -k2)
+
+exit 
+
