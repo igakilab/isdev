@@ -52,12 +52,15 @@
   "workbench.editor.tabSizing": "shrink", // タブの表示設定
   "files.encoding": "utf8",
   "files.exclude": {
-    "bin/": true,
-    ".*": true,
-    "**/.*": true,
+    "**/.vscode": true,
+    "**/.gradle": true,
+    "**/bin/": true,
     "**/.classpath": true,
     "**/.project": true,
     "**/.settings": true,
+    "**/.gitattributes": true,
+    "**/*.class": true,
+    "**/.gitignore": false, // ← 追加：意図的に表示することを表す
   },
   "files.eol": "\n",
   "files.autoSave": "afterDelay",
