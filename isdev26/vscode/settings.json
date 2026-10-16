@@ -105,4 +105,7 @@
   "copilotChatSaver.autoSave": true,
   "copilotChatSaver.outputDirectory": ".log/.chat-history",
   "copilotChatSaver.pollIntervalSeconds": 10,
+  "chat.byokUtilityModelDefault": "mainAgent",
+  "explorer.confirmDelete": false,
+  "terminal.integrated.initialHint": false,
 }
