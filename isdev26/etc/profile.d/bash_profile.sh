@@ -23,13 +23,15 @@ export PATH=/c/oit/${BYOD}/`/usr/local/bin/coursevscode`/:$PATH
 export PATH=/c/oit/${BYOD}/`/usr/local/bin/coursegradle`/bin/:$PATH
 export HOME=$(cd "$USERPROFILE\oithomes\\${CLASSNAME}" && pwd)
 
-# Hidden setting
-/c/Windows/System32/attrib.exe +H ~/kadai/${COURSEYEAR}/.log 1>> "$HISTFILE" 2>&1
 
 export HISTDATE=`date +'%Y%m'`
 export HISTFILE="$HOME/kadai/$COURSEYEAR/.log/.${CLASSNAME}_bash_history.$HISTDATE"
 HISTTIMEFORMAT="%Y/%m/%dT%T%z "
 export PROMPT_COMMAND='echo -e "res:$?\tpwd:$PWD" >> ~/kadai/$COURSEYEAR/.log/.${CLASSNAME}_bash_history.$HISTDATE;history -a'
+
+# Hidden setting
+/c/Windows/System32/attrib.exe +H ~/kadai/${COURSEYEAR}/.log 1>> "$HISTFILE" 2>&1
+
 
 # 古いjava_bash_historyはローカルから削除（6ヶ月以上前）
 this_month=`date +'%Y%m'`
