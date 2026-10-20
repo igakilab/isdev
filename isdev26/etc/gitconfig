@@ -21,7 +21,7 @@
 	process = git-lfs filter-process
 	required = true
 [credential]
-	helper = manager-core
+	helper = manager
 	guiPrompt = false
 [alias]
 	st = status
