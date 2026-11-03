@@ -9,14 +9,6 @@
 
 Copilotがコマンドやスクリプトの実行許可を求める場合は，先に表示される**実行の目的・対象・コマンド・変更や投稿の有無**を読んでから判断してください．説明がない，または意図が分からない場合は，許可する前にCopilot Chatで確認してください．
 
-| 知りたいこと | 参照先(用語ガイド) |
-| --- | --- |
-| AC と DoD の違い，Given-When-Then，INVEST | §4-2，§4-3 |
-| ハーネスとは何か，なぜ AI の回答を正解にしないのか | §2 |
-| プロンプト，Skill，AGENTS.md の役割の違い | §3 |
-| 各工程で「何が保証され，何が保証されないか」 | §7 |
-| 人間がどこで判断すべきか(Human-in-the-loop) | §5 |
-
 ---
 
 ## A. このマニュアル全体の流れ
@@ -42,30 +34,17 @@ Copilotがコマンドやスクリプトの実行許可を求める場合は，�
 `docs/temp/` は AI と相談するための下書きで，**Git に登録しません**．最終的な根拠は Issue，PR，コード，テスト，レビューに残します．
 
 > [!WARNING]
-> AC は「何をもって正しいとするか」の唯一の基準です．実装が終わってから都合よく書き換えてはいけません．要求自体が変わった場合だけ，**実装前にチームで相談して**更新します．この規則はデバッグ中も同じです．不具合を隠すための書き換えは禁止です．
+> AC は「何をもって正しいとするか」の唯一の基準です．実装が終わってから都合よく書き換えてはいけません．要求自体が変わった場合だけ，**チームで相談して**更新します．この規則はデバッグ中も同じです．不具合を隠すための書き換えは禁止です．
 
 **このマニュアルの応答例について**: 以下の「AI の応答例」は，このテンプレートの Prompt／Skill の指示に従って得られる応答の例です．実際の応答は Issue・差分・テスト結果で変わります．`(省略)` の部分も必ず読み，納得できない点は質問してください．
 
 ## 0. 準備
+- プロジェクトの初期化前に下記を実施しておく
 
-1. `RenameMe` というフォルダが配布されるので，まず新しい GitHub リポジトリ名を決めて `RenameMe`から変更する．
-2. GitHub リポジトリとローカルリポジトリを作成し，初期コミットを実施する．
-3. GitHub CLI を使えるようにする．これはIssueやPRの作成・登録に必要です．
-  - 参考： https://docs.github.com/ja/github-cli/github-cli/quickstart
-  - 下記のコマンドを最初の一回だけ全員が実行すること．
-  - 接続プロトコルはSSH，SSH Keyは既に登録されているはずなのでSkipで，ログイン認証はブラウザを選択することを推奨します．
-
-**入力先: ターミナル（Git Bash）**
-
-```bash
-gh auth login
-```
-
-4. GitHubリポジトリのCollaboratorに，チームメンバー全員を追加する．
-5. Spring Initializr を使って Spring Boot プロジェクトを作成する．
-  - Spring Initializr を使うと便利です．
-  - 授業で作成したものと同様の設定にすること
-6. **Issueを登録する前に，GitHubリポジトリ上に使用するMilestoneを作成する．** GitHubのリポジトリ画面で **Issues → Milestones → New milestone** を開き，必要な `lec06`～`lec14` を名前どおりに登録する．草案の `milestone:` 欄へ名前を書くだけでは，GitHub上にMilestone自体は作成されない．既に同名のMilestoneがあれば再作成しない．[GitHubの操作手順](https://docs.github.com/ja/issues/using-labels-and-milestones-to-track-work/creating-and-editing-milestones-for-issues-and-pull-requests)も参照する．
+1. ローカル/リモートリポジトリを作成する
+2. SpringBootプロジェクトを作成し，初期コミットを実施する．
+3. Pull Request必須，force push禁止，ブランチ削除禁止等のGitHubリポジトリ設定を行う
+4. GitHub CLIの認証を行う
 
 ---
 
@@ -76,9 +55,11 @@ gh auth login
 ### 実施の流れ
 
 1. Copilot Chat で `/init-project` を選ぶ．
-2. Prompt が SSH remote，GitHub CLI 認証，Collaborator 一覧，Spring Boot アプリ，Gradleテスト，main 保護設定を検査する．Collaborator が0人または取得できない場合は停止する．
+2. Prompt が SSH remote，GitHub CLI 認証，Collaborator 一覧，Spring Boot アプリ，Gradleテスト，main 保護設定を検査する．NG項目があれば停止する．main 保護設定が確認できない場合は警告を表示する．
 3. 検出したリポジトリ名，アプリ名，アプリフォルダ，Collaborator 一覧を `docs/project.md` に設定する承認を求められたら，内容を確認して承認する．既に記録がある場合も，最新の一覧で更新する．
-4. 初期化後，アプリ本体と `docs/project.md` を初期コミットする．
+4. 初期化後，`docs/project.md` を含むすべてのファイルをコミットする．
+    - この時点で，GitHubのRulesetsの[Disabled]を[Active]にしておく．
+    - これ以降mainブランチに直接コミットは禁止
 
 ### 入力例
 
@@ -236,7 +217,7 @@ docs/temp/issues.md の Issue game-room-join の AC 2 を，
 
 ## 4. 計画b: Issue を登録する(スクリプト:register-from-file.sh)
 
-チームで確認し，担当者とMilestoneを記入した Issue 草案を GitHub Issue として登録します．**IssueにMilestoneを設定する前に，指定するMilestone自体をGitHubリポジトリ上で作成してください．** `milestone: lec06` と草案に書いただけではMilestone自体は作成されません．未作成なら[準備の手順](#0-準備)でGitHubに登録してから進みます．
+チームで確認し，担当者とMilestoneを記入した Issue 草案を GitHub Issue として登録します．**IssueにMilestoneを設定する前に，指定するMilestone自体をGitHubリポジトリ上で作成してください．** `milestone: lec06` と草案に書いただけではMilestone自体は作成されません．未作成ならGitHubに登録してから進みます．
 
 ### 実施の流れ
 
@@ -402,7 +383,7 @@ Copilot Chat の入力欄で，`/prepare-pr` を選んでから次のように�
 
 ### 5-5. Pull Request を登録する(スクリプト:create-pr.sh)
 
-確認済みの PR 本文，下書き，コミット済みブランチから GitHub Pull Request を作成します．**PRにMilestoneを設定する場合も，そのMilestoneが先にGitHubリポジトリ上で作成されている必要があります．** IssueとPRは同じリポジトリのMilestoneを使います．未作成なら[準備の手順](#0-準備)で作成してから進んでください．
+確認済みの PR 本文，下書き，コミット済みブランチから GitHub Pull Request を作成します．**PRにMilestoneを設定する場合も，そのMilestoneが先にGitHubリポジトリ上で作成されている必要があります．** IssueとPRは同じリポジトリのMilestoneを使います．未作成ならGitHubの **Issues → Milestones → New milestone** で作成してから進んでください．
 
 #### 実施の流れ
 
@@ -667,7 +648,7 @@ bash scripts/report/open-weekly-summary.sh docs/weekly-summary-data/fukuyasu/lec
 | PR 本文の形式・関連 Issue 検査 | `scripts/pr/validate-body.sh` | PR 本文の必須見出し・必須本文を検査する．`--check-related-issues` 使用時は，関連 Issue の存在，Issue であること，`Closes` の対象が Open であることを GitHub API で検査する． |
 | PR 登録 | `scripts/pr/create-pr.sh` | ブランチ名，追跡済みの未コミット変更，PR 本文ファイル，関連 Issue，既存Milestoneとの一致を検査する．成功時は `git push` と Milestone付きの `gh pr create` を実行する． |
 | PR 本文の GitHub 側検査 | `.github/workflows/validate-pr-body.yml` | `pull_request_target` で default branch 側の `scripts/pr/validate-body.sh --stdin --check-related-issues` を実行する．PR 側の検査スクリプトは実行しない． |
-| 初期化 | `scripts/harness/init-project.sh` | SSH remote，GitHub CLI 認証，Collaborator 一覧，Spring Bootアプリの自動検出，Gradleテストを検査し，`repository_name`・`app_name`・`app_dir` と開発者一覧を更新する．Collaborator が0人なら停止する． |
+| 初期化 | `scripts/harness/init-project.sh` | SSH remote，GitHub CLI 認証，Collaborator 一覧，Spring Bootアプリの自動検出，Gradleテストを検査し，`repository_name`・`app_name`・`app_dir` と開発者一覧を更新する．Collaborator が0人なら停止し，main 保護設定が確認できない場合は警告する． |
 | 自動テスト | `.github/workflows/ci.yml` | Pull Request 作成時と `main` への push 時に，`docs/project.md` の `app_dir` を読み，そのフォルダで `./gradlew test` を実行する． |
 | テンプレート同期 | `scripts/harness/generate-template-harness.sh` | `docs/template-constraints.md` の `HARNESS-CONFIG` から，Issue Form，PR テンプレート，PR 本文検査 Action，`scripts/lib/markdown-format.sh` を生成する． |
 | 週次振り返りの集計 | `scripts/report/weekly-summary.sh`，`scripts/report/weekly-summary-ui.js`，`scripts/report/server-weekly-summary.ps1` | 既存Milestoneを指定し，未割当または複数assigneeのIssue・PRがあれば集計を停止する．Milestone別JSONをバックアップして差し替え，閲覧用HTMLとスプレッドシート貼り付け用のタブ区切り概要を生成する．DoD自己評価とClose済み担当PRごとのAI利用をJSONへ保存する． |
@@ -677,12 +658,12 @@ bash scripts/report/open-weekly-summary.sh docs/weekly-summary-data/fukuyasu/lec
 分類: 決定的ハーネス（GitHub リポジトリ設定）
 
 - Pull Request を必須にする．
-- `CI` と `Validate pull request body` を必須 status check にする．
-  - 本来は必須のほうが望ましいですが，授業では必須とはしません．
-  - `ci.yml` と `validate-pr-body.yml` は検査ジョブを実行します．これらを main へのマージ条件にするには，GitHub リポジトリ設定で必須 status check として指定する必要があります．
 - 学生を bypass list に追加しない．
 - force push を許可しない．
 - ブランチ削除を許可しない．
+- `CI` と `Validate pull request body`
+  - これらのstatus checkは必須のほうが望ましいですが，授業では必須とはしません．
+  - `ci.yml` と `validate-pr-body.yml` は検査ジョブを実行します．これらを main へのマージ条件にするには，GitHub リポジトリ設定で必須 status check として指定する必要があります．
 
 以上のハーネスを利用するため，GitHub のリポジトリ設定で，default branch の `main` を対象とする Ruleset または Branch protection rule を有効にします．この設定はリポジトリ内のファイルではなく，GitHub のリポジトリ設定で管理します．
 
