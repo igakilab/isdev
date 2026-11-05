@@ -1,9 +1,9 @@
 # プロジェクト概要
 
 <!-- PROJECT-CONFIG
-repository_name=NekozukiProject
-app_name=nekoselect
-app_dir=nekoselect
+repository_name=
+app_name=
+app_dir=
 -->
 
 ## 開発者（GitHub名）
@@ -11,9 +11,6 @@ app_dir=nekoselect
 `/init-project` が、GitHubから取得した最新の Collaborator 一覧でこのブロックを更新する。各Issueの担当者はGitHub上で管理する。
 
 <!-- COLLABORATORS: START -->
-- fukuyasu
-- igaki
-- kiyoshi-honda
 <!-- COLLABORATORS: END -->
 
 ## 開発するアプリケーションの条件
@@ -73,7 +70,7 @@ PortableGit Bash を起動して開発する。JDK、Gradle、GitHub CLIのPATH�
 | `docs/assets/vendor/` | オフライン表示に必要な外部資材とライセンス案内 | 管理する |
 | `docs/trouble/` | `debug` Skillが残す個別デバッグ記録 | 管理する |
 | `docs/temp/` | ブレインストーミング、Issue草案、PR本文の下書き | 管理しない |
-| `docs/ref/springboot_samples/` | 授業配布の読み取り専用参考実装 | 管理しない。変更もしない |
+| `docs/ref/springboot_samples/` | 授業配布の読み取り専用参考実装 | 管理する。通常の機能実装では変更しない |
 | `docs/weekly-summary_*.html` と `docs/weekly-summary-data/` | 個人のローカル週次振り返り | 管理しない |
 
 ### 命名規則
